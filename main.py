@@ -20,6 +20,33 @@ def situlist(mem_list):
     print('4. 귀엽고~ 깜찍하게~ 지하철 게임')
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
+##### 1. 아파트 게임
+def apartment(mem):
+    print('아파트 ~ 아파트 ~ 아파트 아파트 몇 층?!?!')
+    loser_index = 0
+
+    #양손으로 하는 게임이라 범위는 사용자들의 손의 갯수
+    floor = random.randint(1, len(mem)*2)
+    hand_list = []
+
+    for i in range(len(mem)):
+        hand_list.append(mem[i])
+        hand_list.append(mem[i])
+    
+    floor_hand = random.sample(hand_list,8)
+    
+    for i in range(len(floor_hand)):
+        print('-------',i+1,'층',floor_hand[i],' hand-------')
+
+    print('정답 공개: ',floor, '층', floor_hand[floor-1])
+
+    for i in range(len(mem)):
+        if mem[i] == floor_hand[floor-1]:
+            loser_index = i
+            break
+    
+    return loser_index
+
 if __name__ == '__main__':
     #1.게임 시작
 

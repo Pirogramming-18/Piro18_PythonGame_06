@@ -1,16 +1,20 @@
 from random import *
 
+
 class Person:
     def __init__(self, name, death):
         self.name = name
         self.death = death
         self.now = 0
 
-#####현재 상황 보고, 게임 리스트 출력
+# 현재 상황 보고, 게임 리스트 출력
+
+
 def situlist(mem_list):
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     for i in range(len(mem_list)):
-        print(f'{mem_list[i].name}은(는) 지금까지 {mem_list[i].now}! 치사량까지 {mem_list[i].death - mem_list[i].now}')
+        print(
+            f'{mem_list[i].name}은(는) 지금까지 {mem_list[i].now}! 치사량까지 {mem_list[i].death - mem_list[i].now}')
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     print('~~~~~~~ 오늘의 Alcohol GAME ~~~~~~~~~~~~~~~')
 
@@ -20,7 +24,9 @@ def situlist(mem_list):
     print('4. 귀엽고~ 깜찍하게~ 지하철 게임')
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
-##### 전사자 확인
+# 전사자 확인
+
+
 def die(mem_list):
     for i in range(len(mem_list)):
         if mem_list[i].now == mem_list[i].death:
@@ -29,25 +35,27 @@ def die(mem_list):
 
     return 0
 
-##### 1. 아파트 게임
+# 1. 아파트 게임
+
+
 def Game1(mem_list):
     print('아파트 ~ 아파트 ~ 아파트 아파트 몇 층?!?!')
     loser_index = 0
 
-    #양손으로 하는 게임이라 범위는 사용자들의 손의 갯수
+    # 양손으로 하는 게임이라 범위는 사용자들의 손의 갯수
     floor = randint(1, len(mem_list)*2)
     hand_list = []
 
     for i in range(len(mem_list)):
         hand_list.append(mem_list[i].name)
         hand_list.append(mem_list[i].name)
-    
-    floor_hand = sample(hand_list, len(mem_list)*2)
-    
-    for i in range(len(floor_hand)):
-        print('-------',i+1,'층',floor_hand[i],' hand-------')
 
-    print('정답 공개: ',floor, '층', floor_hand[floor-1])
+    floor_hand = sample(hand_list, len(mem_list)*2)
+
+    for i in range(len(floor_hand)):
+        print('-------', i+1, '층', floor_hand[i], ' hand-------')
+
+    print('정답 공개: ', floor, '층', floor_hand[floor-1])
 
     for i in range(len(mem_list)):
         if mem_list[i] == floor_hand[floor-1]:
@@ -55,17 +63,19 @@ def Game1(mem_list):
             break
 
     return loser_index
-##### 2. 병뚜껑 게임
+# 2. 병뚜껑 게임
+
+
 def Game2(mem_list):
-    cap = randint(1,50)
+    cap = randint(1, 50)
 
     num = int(input('병뚜껑 숫자를 불러주세요~ (1부터 50까지) : '))
     cap_list = [num]
-    #컴퓨터 숫자 할당
-    for i in range(len(mem_list) -1): # 사용자는 위에서 지정해서 len - 1
-        cap_list.append(randint(1,50)) # 사용자가 인덱스 0이기 때문에 1부터
+    # 컴퓨터 숫자 할당
+    for i in range(len(mem_list) - 1):  # 사용자는 위에서 지정해서 len - 1
+        cap_list.append(randint(1, 50))  # 사용자가 인덱스 0이기 때문에 1부터
 
-    #절대값 계산
+    # 절대값 계산
     abs_list = []
     for i in range(len(mem_list)):
         abs_list.append(abs(cap - cap_list[i]))
@@ -81,23 +91,77 @@ def Game2(mem_list):
         print(f'{mem_list[i].name}: 선택값 = {cap_list[i]}  절대값 = {abs_list[i]}')
 
     return loser_index
-##### 3. 제로 게임
+# 3. 제로 게임
+
+
 def Game3(mem_list):
-    return
-##### 4. 지하철 게임
+    print()
+    print()
+    print("본인이 선택한 숫자와 본인을 포함한 다른 모든 인원이 들어올린 엄지 개수의 합이 똑같으면 한 잔!")
+    print("-------------------------Game Start!----------------------------")
+    count = 0
+    while (True):
+        randomList = []
+        add = 0
+
+        num1 = int(input("들어 올릴 엄지손가락 수를 입력하세요(최대: 2): "))
+        print()
+        randomList.append(num1)  # 사용자 인덱스 0번
+
+        if count == 0:
+            num2 = int(input("당신 차례! 당신이 고를 숫자를 입력해주세요(최대: 인원수x2): "))
+            print()
+        for i in range(len(mem_list)-1):  # 컴퓨터 엄지개수 입력, 이 시점에서 mem과 random길이 같음
+            randomNum = randint(0, 2)
+            randomList.append(randomNum)
+
+        for i in range(len(randomList)):
+            print("{}: 엄지 수 {}!".format(
+                mem_list[i].name, randomList[i]))  # 손가락 개수 각각 출력
+            add = add + randomList[i]  # 손가락 개수 다 합치기
+        print()
+        if count == 0:
+            if num2 == add:
+                print("{}: {} 선택!".format(mem_list[0].name, add))
+                print("{} 당첨! 한 잔 하세요".format(mem_list[0].name))
+                print()
+                loser_index = 0
+                return loser_index
+            else:
+                print("{}: {} 선택!".format(mem_list[0].name, num2))
+                print()
+                count = count + 1
+        else:
+            choice = randint(0, len(mem_list)*2)
+            print("{}: {} 선택!".format(mem_list[count].name, choice))
+            print()
+            if add == choice:
+                print("{} 당첨! 한 잔 하세요".format(mem_list[count].name))
+                print()
+                loser_index = count
+                return loser_index
+            else:
+                count = count + 1
+        if count == len(randomList):
+            count = 0
+# 4. 지하철 게임
+
+
 def Game4(mem_list):
     return
+
+
 if __name__ == '__main__':
-    #1.게임 시작
+    # 1.게임 시작
 
     print('술게임 시작~~~~~~~')
     yn = input('게임을 진행할까요? (y/n) : ')
 
     if yn == 'y':
-        #2. 사용자의 이름 받기
+        # 2. 사용자의 이름 받기
         player_name = input('오늘 코 삐뚤어질 당신의 이름은? : ')
 
-        #3. 본인의 주량 선택하기
+        # 3. 본인의 주량 선택하기
 
         while True:
             print('~~~~~~~~~~소주 기준 당신의 주량은?~~~~~~~~~~')
@@ -131,12 +195,12 @@ if __name__ == '__main__':
         mem_list = []
         mem_list.append(Person(player_name, death))
 
-
-        #4. 같이 대결할 사람 초대하기 & 게임 리스트 출력하기
+        # 4. 같이 대결할 사람 초대하기 & 게임 리스트 출력하기
         name_list = ['담희', '정원', '신빈', '환준']
 
         while True:
-            mem_num = input('함께 취할 친구들은 얼마나 필요하신가요?(사회적 거리두기로 인해 최대 3명까지 초대할 수 있어요!): ')
+            mem_num = input(
+                '함께 취할 친구들은 얼마나 필요하신가요?(사회적 거리두기로 인해 최대 3명까지 초대할 수 있어요!): ')
 
             if not mem_num.isnumeric():
                 print('정수를 입력해주세요!')
@@ -155,9 +219,9 @@ if __name__ == '__main__':
         l = len(name_list)
         for i in range(int(mem_num)):
             com_name = name_list.pop()
-            com_death = randrange(2,11,2)
+            com_death = randrange(2, 11, 2)
             print(f'오늘 함께 취할 친구는 {com_name}입니다! (치사량 : {com_death})')
-            mem_list.append(Person(com_name,com_death))
+            mem_list.append(Person(com_name, com_death))
 
         print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
         situlist(mem_list)
@@ -166,10 +230,12 @@ if __name__ == '__main__':
         exit = 'a'
         while exit != 'exit':
             if play_turn == 0:
-                game_choice = int(input(f'{mem_list[play_turn].name}(이)가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨 게임? : '))
-            else: #컴퓨터 초이스
-                game_choice = randint(1,4)
-                print(f'{mem_list[play_turn].name}(이)가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨 게임? : {game_choice}')
+                game_choice = int(
+                    input(f'{mem_list[play_turn].name}(이)가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨 게임? : '))
+            else:  # 컴퓨터 초이스
+                game_choice = randint(1, 4)
+                print(
+                    f'{mem_list[play_turn].name}(이)가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨 게임? : {game_choice}')
             print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
             print(f'{mem_list[play_turn].name}님이 게임을 선택하였습니다!')
 
@@ -191,10 +257,11 @@ if __name__ == '__main__':
             if check == 1:
                 break
 
-            exit = input('술게임 진행중! 다른 사람의 턴입니다. 그만하고 싶으면 "exit"를, 계속하고 싶으면 아무키나 입력해주세요! : ')
+            exit = input(
+                '술게임 진행중! 다른 사람의 턴입니다. 그만하고 싶으면 "exit"를, 계속하고 싶으면 아무키나 입력해주세요! : ')
             play_turn += 1
 
-            #4명 이상이면 다시 처음 플레이어로
+            # 4명 이상이면 다시 처음 플레이어로
             if play_turn > 4:
                 play_turn = 0
 

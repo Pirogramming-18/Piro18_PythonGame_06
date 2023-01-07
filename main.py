@@ -63,16 +63,22 @@ def Game2(mem_list):
     cap_list = [num]
     #컴퓨터 숫자 할당
     for i in range(len(mem_list) -1): # 사용자는 위에서 지정해서 len - 1
-        cap_list[i + 1] = randint(1, 50) # 사용자가 인덱스 0이기 때문에 1부터
+        cap_list.append(randint(1,50)) # 사용자가 인덱스 0이기 때문에 1부터
 
     #절대값 계산
+    abs_list = []
     for i in range(len(mem_list)):
-        cap_list[i] = abs(cap - cap_list[i])
+        abs_list.append(abs(cap - cap_list[i]))
 
     max_num = -999
     for i in range(len(cap_list)):
-        if max_num < cap_list[i]:
+        if max_num < abs_list[i]:
+            max_num = abs_list[i]
             loser_index = i
+
+    print(f'정답 공개: {cap}')
+    for i in range(len(mem_list)):
+        print(f'{mem_list[i].name}: 선택값 = {cap_list[i]}  절대값 = {abs_list[i]}')
 
     return loser_index
 
@@ -80,8 +86,8 @@ if __name__ == '__main__':
     #1.게임 시작
 
     print('술게임 시작~~~~~~~')
-    #yn = input('게임을 진행할까요? (y/n) : ')
-    yn = 'y'
+    yn = input('게임을 진행할까요? (y/n) : ')
+
     if yn == 'y':
         #2. 사용자의 이름 받기
         player_name = input('오늘 코 삐뚤어질 당신의 이름은? : ')
@@ -152,33 +158,35 @@ if __name__ == '__main__':
         situlist(mem_list)
 
         play_turn = 0
+        exit = 'a'
         while exit != 'exit':
             if play_turn == 0:
-                game_choice = input(f'{mem_list[play_turn].name}(이)가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨 게임? : ')
+                game_choice = int(input(f'{mem_list[play_turn].name}(이)가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨 게임? : '))
             else: #컴퓨터 초이스
                 game_choice = randint(1,4)
+                print(f'{mem_list[play_turn].name}(이)가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨 게임? : {game_choice}')
             print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
             print(f'{mem_list[play_turn].name}님이 게임을 선택하였습니다!')
 
-            if game_choice == '1':
-                loser = Game1()
-            elif game_choice == '2':
-                loser = Game2()
-            elif game_choice == '3':
+            if game_choice == 1:
+                loser = Game1(mem_list)
+            elif game_choice == 2:
+                loser = Game2(mem_list)
+            elif game_choice == 3:
                 loser = Game3()
             else:
                 loser = Game4()
 
-            print(f'{mem_list[loser].name}가 걸림!! 원샷~')
+            print(f'{mem_list[loser].name}이(가) 걸림!! 원샷~')
 
             mem_list[loser].now += 1
 
-            situlist()
-            check = die()
+            situlist(mem_list)
+            check = die(mem_list)
             if check == 1:
                 break
 
-            exit = ('술게임 진행중! 다른 사람의 턴입니다. 그만하고 싶으면 "exit"를, 계속하고 싶으면 아무키나 입력해주세요! : ')
+            exit = input('술게임 진행중! 다른 사람의 턴입니다. 그만하고 싶으면 "exit"를, 계속하고 싶으면 아무키나 입력해주세요! : ')
             play_turn += 1
 
             #4명 이상이면 다시 처음 플레이어로
@@ -187,3 +195,6 @@ if __name__ == '__main__':
 
     else:
         print('다음번엔 참여해주세요.. 꼬옥..!')
+
+    if exit == 'exit':
+        print('오늘은 여기까지지만 다음엔 끝까지 달려요~~!!')

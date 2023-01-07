@@ -20,8 +20,17 @@ def situlist(mem_list):
     print('4. 귀엽고~ 깜찍하게~ 지하철 게임')
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
+##### 전사자 확인
+def die(mem_list):
+    for i in range(len(mem_list)):
+        if mem_list[i].now == mem_list[i].death:
+            print(f'{mem_list[i].name}이(가) 전사했습니다... 꿈나라에서는 편히 쉬시길 ..zzz')
+            return 1
+
+    return 0
+
 ##### 1. 아파트 게임
-def apartment(mem):
+def Game1(mem):
     print('아파트 ~ 아파트 ~ 아파트 아파트 몇 층?!?!')
     loser_index = 0
 
@@ -45,6 +54,26 @@ def apartment(mem):
             loser_index = i
             break
     
+    return loser_index
+
+def Game2(mem_list):
+    cap = randint(1,50)
+
+    num = int(input('병뚜껑 숫자를 불러주세요~ (1부터 50까지) : '))
+    cap_list = [num]
+    #컴퓨터 숫자 할당
+    for i in range(len(mem_list) -1): # 사용자는 위에서 지정해서 len - 1
+        cap_list[i + 1] = randint(1, 50) # 사용자가 인덱스 0이기 때문에 1부터
+
+    #절대값 계산
+    for i in range(len(mem_list)):
+        cap_list[i] = abs(cap - cap_list[i])
+
+    max_num = -999
+    for i in range(len(cap_list)):
+        if max_num < cap_list[i]:
+            loser_index = i
+
     return loser_index
 
 if __name__ == '__main__':
@@ -121,6 +150,40 @@ if __name__ == '__main__':
 
         print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
         situlist(mem_list)
+
+        play_turn = 0
+        while exit != 'exit':
+            if play_turn == 0:
+                game_choice = input(f'{mem_list[play_turn].name}(이)가 좋아하는 랜덤 게임~ 랜덤 게임~ 무슨 게임? : ')
+            else: #컴퓨터 초이스
+                game_choice = randint(1,4)
+            print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+            print(f'{mem_list[play_turn].name}님이 게임을 선택하였습니다!')
+
+            if game_choice == '1':
+                loser = Game1()
+            elif game_choice == '2':
+                loser = Game2()
+            elif game_choice == '3':
+                loser = Game3()
+            else:
+                loser = Game4()
+
+            print(f'{mem_list[loser].name}가 걸림!! 원샷~')
+
+            mem_list[loser].now += 1
+
+            situlist()
+            check = die()
+            if check == 1:
+                break
+
+            exit = ('술게임 진행중! 다른 사람의 턴입니다. 그만하고 싶으면 "exit"를, 계속하고 싶으면 아무키나 입력해주세요! : ')
+            play_turn += 1
+
+            #4명 이상이면 다시 처음 플레이어로
+            if play_turn > 4:
+                play_turn = 0
 
     else:
         print('다음번엔 참여해주세요.. 꼬옥..!')

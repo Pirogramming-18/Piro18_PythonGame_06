@@ -24,6 +24,11 @@ def situlist(mem_list):
     print('4. 귀엽고~ 깜찍하게~ 지하철 게임')
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
+
+# 인트로 내일 할게용
+def intro():
+    return
+
 # 전사자 확인
 
 
@@ -69,7 +74,12 @@ def Game1(mem_list):
 def Game2(mem_list):
     cap = randint(1, 50)
 
-    num = int(input('병뚜껑 숫자를 불러주세요~ (1부터 50까지) : '))
+    while True:
+        num = input('병뚜껑 숫자를 불러주세요~ (1부터 50까지) : ')
+        if num.isdigit() and 1<=int(num)<=50:
+            num = int(num)
+            break
+
     cap_list = [num]
     # 컴퓨터 숫자 할당
     for i in range(len(mem_list) - 1):  # 사용자는 위에서 지정해서 len - 1
@@ -103,8 +113,13 @@ def Game3(mem_list):
     while (True):
         randomList = []
         add = 0
-
-        num1 = int(input("들어 올릴 엄지손가락 수를 입력하세요(최대: 2): "))
+        
+        while True:
+            num1 = input("들어 올릴 엄지손가락 수를 입력하세요(최대: 2): ")
+            if num1.isdigit() and 0<=int(num1)<=2:
+                num1=int(num1)
+                break
+    
         print()
         randomList.append(num1)  # 사용자 인덱스 0번
 

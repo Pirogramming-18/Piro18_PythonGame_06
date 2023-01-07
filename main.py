@@ -30,32 +30,32 @@ def die(mem_list):
     return 0
 
 ##### 1. 아파트 게임
-def Game1(mem):
+def Game1(mem_list):
     print('아파트 ~ 아파트 ~ 아파트 아파트 몇 층?!?!')
     loser_index = 0
 
     #양손으로 하는 게임이라 범위는 사용자들의 손의 갯수
-    floor = random.randint(1, len(mem)*2)
+    floor = randint(1, len(mem_list)*2)
     hand_list = []
 
-    for i in range(len(mem)):
-        hand_list.append(mem[i])
-        hand_list.append(mem[i])
+    for i in range(len(mem_list)):
+        hand_list.append(mem_list[i].name)
+        hand_list.append(mem_list[i].name)
     
-    floor_hand = random.sample(hand_list,8)
+    floor_hand = sample(hand_list, len(mem_list)*2)
     
     for i in range(len(floor_hand)):
         print('-------',i+1,'층',floor_hand[i],' hand-------')
 
     print('정답 공개: ',floor, '층', floor_hand[floor-1])
 
-    for i in range(len(mem)):
-        if mem[i] == floor_hand[floor-1]:
+    for i in range(len(mem_list)):
+        if mem_list[i] == floor_hand[floor-1]:
             loser_index = i
             break
-    
-    return loser_index
 
+    return loser_index
+##### 2. 병뚜껑 게임
 def Game2(mem_list):
     cap = randint(1,50)
 
@@ -81,7 +81,12 @@ def Game2(mem_list):
         print(f'{mem_list[i].name}: 선택값 = {cap_list[i]}  절대값 = {abs_list[i]}')
 
     return loser_index
-
+##### 3. 제로 게임
+def Game3(mem_list):
+    return
+##### 4. 지하철 게임
+def Game4(mem_list):
+    return
 if __name__ == '__main__':
     #1.게임 시작
 
@@ -173,9 +178,9 @@ if __name__ == '__main__':
             elif game_choice == 2:
                 loser = Game2(mem_list)
             elif game_choice == 3:
-                loser = Game3()
-            else:
-                loser = Game4()
+                loser = Game3(mem_list)
+            elif game_choice == 3:
+                loser = Game4(mem_list)
 
             print(f'{mem_list[loser].name}이(가) 걸림!! 원샷~')
 

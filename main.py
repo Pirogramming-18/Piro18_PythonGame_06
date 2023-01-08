@@ -1,4 +1,5 @@
 from random import *
+from Game4 import *
 
 
 class Person:
@@ -173,8 +174,8 @@ def Game3(mem_list):
 # 4. 지하철 게임
 
 
-def Game4(mem_list):
-    return
+# def Game4(mem_list):
+#     return
 
 
 if __name__ == '__main__':
@@ -275,7 +276,7 @@ if __name__ == '__main__':
                 loser = Game2(mem_list)
             elif game_choice == 3:
                 loser = Game3(mem_list)
-            elif game_choice == 3:
+            elif game_choice == 4:
                 loser = Game4(mem_list)
 
             print(f'{mem_list[loser].name}이(가) 걸림!! 원샷~')

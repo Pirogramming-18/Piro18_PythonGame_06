@@ -280,8 +280,8 @@ if __name__ == '__main__':
                 '술게임 진행중! 다른 사람의 턴입니다. 그만하고 싶으면 "exit"를, 계속하고 싶으면 아무키나 입력해주세요! : ')
             play_turn += 1
 
-            # 게임 참여자 수 이상이면 다시 처음 플레이어로
-            if play_turn > len(mem_list):
+            # play_turn이 게임 참여자 수와 같으면 다시 처음 플레이어로 돌아가기
+            if play_turn == len(mem_list):
                 play_turn = 0
 
     else:

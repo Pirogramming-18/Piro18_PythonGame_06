@@ -117,12 +117,12 @@ def printRandomEmo(emoticons):
     # 5%의 확률로 부정적 이모티콘
     if randint(1, 1000) < 50:
         idx = choice(bad_idx)
-        print(emoticons[idx][randint(0, len(emoticons[idx]))])
+        print(emoticons[idx][randint(0, len(emoticons[idx]) - 1)])
         print("귀엽고 깜찍하지 않아요😰😨😱😫🤢🤮")
         return -1
     else:
         idx = choice(good_idx)
-        print(emoticons[idx][randint(0, len(emoticons[idx]))])
+        print(emoticons[idx][randint(0, len(emoticons[idx]) - 1)])
         return 1
 
 
@@ -143,7 +143,8 @@ def Game4(mem):
         if order_idx == 0:
             print(
                 "--------------------------------------------------------------------------------")
-            cur_station = input(mem[order[order_idx]].name + "님, 역을 선택해주세요 : ")
+            cur_station = input(
+                mem[order[order_idx]].name + "님, 역 이름을 입력해주세요 : ")
             # emoticon 출력
             if printRandomEmo(emoticons) == -1:
                 return order[order_idx]
@@ -173,8 +174,11 @@ def Game4(mem):
             cur_station = ""
             # 5%의 확률로 잘못된 호선과 역 선택
             if randint(1, 1000) <= 50:
-                cur_station = choice(whole_stations[choice(
-                    list(range(0, cur_line)) + list(range(cur_line + 1, len(stations))))])
+                while True:
+                    cur_station = choice(
+                        whole_stations[choice(list(range(0, len(stations))))])
+                    if cur_station not in stations[cur_line]:
+                        break
                 print(mem[order[order_idx]].name + "님이 선택한 역 : " + cur_station)
                 # emoticon 출력
                 if printRandomEmo(emoticons) == -1:
